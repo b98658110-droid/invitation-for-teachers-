@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Приглашение на День Рождения | Фаррух приглашает учителей</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #fef5e7 0%, #fcebd9 100%);
+            font-family: 'Segoe UI', 'Poppins', 'Roboto', system-ui, 'Playfair Display', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Элегантный фон с намёком на ресторан и звёзды */
+        .restaurant-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .restaurant-bg::before {
+            content: "🍽️ ✨ 🥂 ✨ 🍷";
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 80px;
+            opacity: 0.05;
+            white-space: pre;
+        }
+
+        .bg-icon {
+            position: absolute;
+            font-size: 2.5rem;
+            opacity: 0.08;
+        }
+        .bg-icon:nth-child(1) { top: 15%; left: 5%; transform: rotate(-10deg); }
+        .bg-icon:nth-child(2) { top: 70%; left: 85%; font-size: 4rem; }
+        .bg-icon:nth-child(3) { top: 45%; left: 90%; }
+        .bg-icon:nth-child(4) { top: 85%; left: 10%; }
+        .bg-icon:nth-child(5) { top: 25%; left: 88%; }
+
+        /* Основная карточка */
+        .invitation-card {
+            position: relative;
+            z-index: 10;
+            max-width: 660px;
+            width: 100%;
+            background: rgba(255, 252, 245, 0.98);
+            backdrop-filter: blur(2px);
+            border-radius: 56px 40px 64px 40px;
+            box-shadow: 0 30px 45px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(230, 180, 120, 0.5), 0 15px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .invitation-card:hover {
+            transform: scale(1.01);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #c06a2e, #9b4a1a);
+            padding: 32px 20px 28px;
+            text-align: center;
+            color: white;
+            clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero h1 span {
+            display: inline-block;
+            background: rgba(255,235,180,0.25);
+            padding: 0 12px;
+            border-radius: 60px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-top: 12px;
+            font-style: italic;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 30px 28px 40px;
+        }
+
+        .greeting {
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #9b4a1a;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+            border-bottom: 2px dashed #f3cf9a;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding-bottom: 8px;
+        }
+
+        .invite-message {
+            background: #fff9f0;
+            padding: 22px 26px;
+            border-radius: 40px 20px 40px 20px;
+            margin: 15px 0 20px;
+            box-shadow: inset 0 0 0 1px #ffefd6, 0 8px 14px rgba(0,0,0,0.04);
+        }
+
+        .invite-message p {
+            font-size: 1.05rem;
+            line-height: 1.55;
+            color: #3e2e22;
+            margin-bottom: 14px;
+        }
+
+        .invite-message strong {
+            color: #c06a2e;
+            font-weight: 700;
+        }
+
+        .teachers {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            margin: 20px 0 15px;
+            flex-wrap: wrap;
+        }
+
+        .teacher-card {
+            background: linear-gradient(135deg, #fff5ea, #ffefdf);
+            border-radius: 48px;
+            padding: 14px 24px;
+            text-align: center;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+            border: 1px solid #ffddb0;
+        }
+
+        .teacher-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #b75824;
+        }
+
+        .teacher-title {
+            font-size: 0.75rem;
+            color: #a16236;
+            letter-spacing: 1px;
+        }
+
+        .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: space-between;
+            margin: 25px 0 20px;
+        }
+
+        .info-block {
+            flex: 1;
+            min-width: 130px;
+            background: #fff4e8;
+            border-radius: 44px 20px 44px 20px;
+            padding: 14px 10px;
+            text-align: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .info-block .emoji-big {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .info-block .label {
+            font-weight: 700;
+            color: #b45a2c;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-block .value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d2b26;
+            margin-top: 6px;
+        }
+
+        .address-block {
+            background: #fff3e4;
+            border-radius: 32px;
+            padding: 16px 20px;
+            margin: 12px 0 20px;
+            border-left: 10px solid #e5943b;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .address-icon {
+            font-size: 1.9rem;
+        }
+
+        .address-text {
+            flex: 1;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #4e3a28;
+        }
+
+        .address-text strong {
+            color: #c06a2e;
+        }
+
+        .countdown {
+            margin-top: 25px;
+            background: #fff2e6;
+            border-radius: 42px;
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .countdown h4 {
+            font-size: 1.1rem;
+            color: #b75824;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .time-unit {
+            background: white;
+            border-radius: 30px;
+            padding: 8px 12px;
+            min-width: 70px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .time-number {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #e67e22;
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #b87a4b;
+        }
+
+        .footer {
+            background: #fae9da;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.8rem;
+            color: #9b5a2c;
+            border-top: 1px solid #ffdfc4;
+        }
+
+        .btn-confirm {
+            background: #d97a2b;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 28px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+
+        .btn-confirm:hover {
+            background: #b85d1c;
+            transform: scale(1.02);
+        }
+
+        .center-btn {
+            text-align: center;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 550px) {
+            .hero h1 { font-size: 1.8rem; }
+            .greeting { font-size: 1.3rem; }
+            .details { flex-direction: column; }
+            .time-number { font-size: 1.3rem; }
+            .time-unit { min-width: 55px; }
+            .teachers { flex-direction: column; align-items: center; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="restaurant-bg">
+        <div class="bg-icon">🍷</div>
+        <div class="bg-icon">🥂</div>
+        <div class="bg-icon">🍽️</div>
+        <div class="bg-icon">✨</div>
+        <div class="bg-icon">🎩</div>
+    </div>
+
+    <div class="invitation-card">
+        <div class="hero">
+            <h1>🎈 <span>День Рождения</span> 🎈</h1>
+            <p>Приглашение от ученика с благодарностью</p>
+        </div>
+        <div class="content">
+            <div class="greeting">
+                📖 Уважаемые учителя! 📖
+            </div>
+            <div class="invite-message">
+                <p>✨ Дорогие <strong>Бехруз Тахирович</strong> и <strong>Фаррух Мухаммаджанович</strong>! ✨</p>
+                <p>Мне, вашему ученику <strong>Фарруху</strong>, очень хочется разделить с вами радость моего Дня Рождения. Вы для меня — не просто наставники, а люди, которые вдохновляют и поддерживают. Именно поэтому я с огромным уважением приглашаю вас на праздничный вечер.</p>
+                <p>Буду счастлив видеть вас за одним столом, сказать слова благодарности и просто хорошо провести время в уютной атмосфере.</p>
+                <p>🍂 Приходите, буду ждать именно вас! 🍂</p>
+            </div>
+            
+            <div class="teachers">
+                <div class="teacher-card">
+                    <div class="teacher-name">Бехруз Тахирович</div>
+                    <div class="teacher-title">🎓 Уважаемый учитель</div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-name">Фаррух Мухаммаджанович</div>
+                    <div class="teacher-title">📚 Дорогой наставник</div>
+                </div>
+            </div>
+
+            <div class="details">
+                <div class="info-block">
+                    <span class="emoji-big">📅</span>
+                    <div class="label">ДАТА</div>
+                    <div class="value">18 апреля 2026</div>
+                </div>
+                <div class="info-block">
+                    <span class="emoji-big">⏰</span>
+                    <div class="label">ВРЕМЯ</div>
+                    <div class="value">18:00</div>
+                </div>
+                <div class="info-block">
+                    <span class="emoji-big">👔</span>
+                    <div class="label">DRESS CODE</div>
+                    <div class="value">Элегантный</div>
+                </div>
+            </div>
+
+            <div class="address-block">
+                <div class="address-icon">📍</div>
+                <div class="address-text">
+                    <strong>Ресторан «Алмашрик»</strong>
+                </div>
+            </div>
+
+            <!-- Таймер до 18 апреля 2026, 18:00 -->
+            <div class="countdown">
+                <h4>🎉 Осталось до встречи с учителями 🎉</h4>
+                <div class="timer" id="timerContainer">
+                    <div class="time-unit"><div class="time-number" id="days">00</div><div class="time-label">Дней</div></div>
+                    <div class="time-unit"><div class="time-number" id="hours">00</div><div class="time-label">Часов</div></div>
+                    <div class="time-unit"><div class="time-number" id="minutes">00</div><div class="time-label">Минут</div></div>
+                    <div class="time-unit"><div class="time-number" id="seconds">00</div><div class="time-label">Секунд</div></div>
+                </div>
+            </div>
+            
+            <div class="center-btn">
+                <button class="btn-confirm" id="confirmBtn">✨ Подтвердить присутствие ✨</button>
+            </div>
+            <p style="text-align: center; margin-top: 18px; font-size: 0.7rem; color:#b87a4b;">⭐ С глубоким уважением, ваш ученик Фаррух ⭐</p>
+        </div>
+        <div class="footer">
+            🥂 Жду вас в «Алмашрике» 18 апреля в 18:00! 🥂<br>
+            Фаррух (ученик)
+        </div>
+    </div>
+
+    <div id="toastMsg" style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #c06a2e; color: white; padding: 12px 28px; border-radius: 60px; font-weight: bold; z-index: 1100; opacity: 0; transition: opacity 0.3s; pointer-events: none; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">Спасибо!</div>
+
+    <script>
+        (function() {
+            // Дата события: 18 апреля 2026, 18:00
+            const eventDate = new Date(2026, 3, 18, 18, 0, 0);
+            
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const targetTime = eventDate.getTime();
+                const distance = targetTime - now;
+
+                if (distance < 0) {
+                    document.getElementById('days').innerHTML = '00';
+                    document.getElementById('hours').innerHTML = '00';
+                    document.getElementById('minutes').innerHTML = '00';
+                    document.getElementById('seconds').innerHTML = '00';
+                    const timerDiv = document.querySelector('.countdown h4');
+                    if (timerDiv && timerDiv.innerText !== '🎉 Сегодня праздник! Ждём вас! 🎉') {
+                        timerDiv.innerText = '🎉 Сегодня день рождения! Добро пожаловать! 🎉';
+                    }
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').innerHTML = days < 10 ? '0' + days : days;
+                document.getElementById('hours').innerHTML = hours < 10 ? '0' + hours : hours;
+                document.getElementById('minutes').innerHTML = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById('seconds').innerHTML = seconds < 10 ? '0' + seconds : seconds;
+            }
+
+            updateCountdown();
+            const intervalTimer = setInterval(updateCountdown, 1000);
+
+            function checkPast() {
+                if (new Date() > eventDate) {
+                    const header = document.querySelector('.countdown h4');
+                    if (header) header.innerHTML = '🎉 Спасибо, что были со мной! 🎉';
+                    clearInterval(intervalTimer);
+                }
+            }
+            checkPast();
+
+            // Уведомление через тост
+            const toast = document.getElementById('toastMsg');
+            function showToast(message, bg = '#c06a2e') {
+                toast.style.backgroundColor = bg;
+                toast.textContent = message;
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                }, 3000);
+            }
+
+            // Кнопка подтверждения
+            const confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.addEventListener('click', () => {
+                showToast('✨ Бехруз Тахирович и Фаррух Мухаммаджанович, спасибо! Жду вас в Алмашрике 18 апреля в 18:00! ✨', '#9b4a1a');
+                createCelebrationEffect();
+            });
+
+            // Праздничный эффект (конфетти)
+            function createCelebrationEffect() {
+                const canvas = document.createElement('canvas');
+                canvas.style.position = 'fixed';
+                canvas.style.top = '0';
+                canvas.style.left = '0';
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.style.pointerEvents = 'none';
+                canvas.style.zIndex = '1001';
+                document.body.appendChild(canvas);
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                let particles = [];
+                const colors = ['#f3bc6e', '#e69b4a', '#ffd58c', '#d97a2b', '#f5c88e', '#f0ad6a'];
+                for(let i = 0; i < 130; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height - canvas.height,
+                        size: Math.random() * 7 + 3,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        speedY: Math.random() * 5 + 3,
+                        speedX: (Math.random() - 0.5) * 2.4,
+                        rotation: Math.random() * 360,
+                        spin: (Math.random() - 0.5) * 8
+                    });
+                }
+                
+                let animId;
+                let start = performance.now();
+                function draw(now) {
+                    if (now - start > 2000) {
+                        cancelAnimationFrame(animId);
+                        canvas.remove();
+                        return;
+                    }
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    let alive = false;
+                    for(let p of particles) {
+                        p.y += p.speedY;
+                        p.x += p.speedX;
+                        p.rotation += p.spin;
+                        if(p.y < canvas.height + 40) alive = true;
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate(p.rotation * Math.PI / 180);
+                        ctx.fillStyle = p.color;
+                        ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                        ctx.restore();
+                    }
+                    if(alive) animId = requestAnimationFrame(draw);
+                    else { cancelAnimationFrame(animId); canvas.remove(); }
+                }
+                animId = requestAnimationFrame(draw);
+            }
+
+            // Клик на шапку (сюрприз)
+            const hero = document.querySelector('.hero');
+            hero.addEventListener('click', () => {
+                createCelebrationEffect();
+                showToast('🎂 Спасибо, что вы у меня есть! С нетерпением жду встречи! 🎂', '#d97a2b');
+            });
+
+            // Анимация появления карточки
+            const card = document.querySelector('.invitation-card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(18px)';
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.4s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+
+            console.log('Приглашение для Бехруза Тахировича и Фарруха Мухаммаджановича от ученика Фарруха | Алмашрик | 18.04.2026 18:00');
+        })();
+    </script>
+</body>
+</html>
